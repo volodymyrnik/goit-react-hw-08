@@ -17,11 +17,6 @@ export const selectAllContacts = (state) => state.contacts.items;
 
 // export const selectError = (state) => state.contacts.error;
 
-import { createSelector } from '@reduxjs/toolkit';
-import { selectFilter } from '../filters/selectors';
-
-export const selectAllContacts = (state) => state.contacts.items;
-
 export const selectFilteredContacts = createSelector(
   [selectAllContacts, selectFilter],
   (contacts, filter) => {
