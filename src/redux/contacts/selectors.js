@@ -16,3 +16,18 @@ export const selectAllContacts = (state) => state.contacts.items;
 // export const selectContacts = (state) => state.contacts.items;
 
 // export const selectError = (state) => state.contacts.error;
+
+import { createSelector } from '@reduxjs/toolkit';
+import { selectFilter } from '../filters/selectors';
+
+export const selectAllContacts = (state) => state.contacts.items;
+
+export const selectFilteredContacts = createSelector(
+  [selectAllContacts, selectFilter],
+  (contacts, filter) => {
+    if (!filter) return contacts;
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+);
