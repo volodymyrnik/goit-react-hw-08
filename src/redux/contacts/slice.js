@@ -1,21 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
-import { createSelector } from '@reduxjs/toolkit';
-import { selectAllContacts } from "./selectors.js";
-import { selectFilter } from "../filters/selectors";
+import { logOut } from '../auth/operations';
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
-    filter: "",
     loading: false,
     error: null,
-  },
-  reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload; // Сохраняем фильтр в состоянии
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -25,13 +17,13 @@ const contactsSlice = createSlice({
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload; // Сохраняем полученные контакты
+        state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        console.error("Error fetching contacts:", action.payload); // Логируем ошибку
       })
+
       .addCase(addContact.pending, (state) => {
         state.loading = true;
       })
@@ -43,33 +35,27 @@ const contactsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       .addCase(deleteContact.pending, (state) => {
         state.loading = true;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter((contact) => contact.id !== action.payload);
+        state.items = state.items.filter(
+          (contact) => contact.id !== action.payload
+        );
       })
       .addCase(deleteContact.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(logOut.fulfilled, (state) => {
+        state.items = [];
+        state.loading = false;
+        state.error = null;
       });
   },
 });
-
-
-export const selectFilteredContacts = createSelector(
-  [selectAllContacts, selectFilter],
-  (contacts, filterValue) => {
-    if (!filterValue) {
-      return contacts;
-    }
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filterValue.toLowerCase())
-    );
-  }
-);
-
-export const { setFilter } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

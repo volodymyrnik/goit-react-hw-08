@@ -29,7 +29,6 @@ function App() {
 
   useEffect(() => {
     dispatch(refreshUser());
-    dispatch(fetchContacts());
   }, [dispatch]);
   
   return (

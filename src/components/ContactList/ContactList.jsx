@@ -20,9 +20,6 @@ const ContactList = () => {
   console.log('contacts:', contacts);
   console.log('filter:', filter);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
 
   useEffect(() => {
     console.log('Contacts:', contacts); // Логируем контакты

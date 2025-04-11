@@ -18,11 +18,7 @@ export default function ContactsPage() {
     console.log("Fetching contacts...");
     dispatch(fetchContacts());
 
-    const handleUnload = () => {
-      dispatch(logOut());
-    };
-  }, [dispatch]);
-
+   
   return (
     <div className={css["contacts-container"]}>
       <h1 className={css["page-title"]}>Your contacts</h1>
