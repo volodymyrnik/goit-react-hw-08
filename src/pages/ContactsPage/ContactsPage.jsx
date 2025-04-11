@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PageTitle from "../../components/PageTitle/PageTitle";
 import ContactList from "../../components/ContactList/ContactList";
-import ContactEditor from "../../components/ContactEditor/ContactEditor";
-import { fetchContacts } from "../../redux/contacts/operations.js";
-import { selectLoading } from "../../redux/contacts/selectors.js";
-import SearchBox from "../../components/SearchBox/SearchBox.jsx";
-import ContactsForm from "../../components/ContactsForm/ContactsForm.jsx";
-import { logOut } from "../../redux/auth/operations"; 
+import ContactsForm from "../../components/ContactsForm/ContactsForm";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import { fetchContacts } from "../../redux/contacts/operations";
+import { selectLoading } from "../../redux/contacts/selectors";
 import css from "./ContactsPage.module.css";
 
 export default function ContactsPage() {
@@ -17,8 +14,8 @@ export default function ContactsPage() {
   useEffect(() => {
     console.log("Fetching contacts...");
     dispatch(fetchContacts());
+  }, [dispatch]); // ✅ закриваємо useEffect
 
-   
   return (
     <div className={css["contacts-container"]}>
       <h1 className={css["page-title"]}>Your contacts</h1>
